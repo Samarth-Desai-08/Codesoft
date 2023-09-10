@@ -1,0 +1,210 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[256]:
+
+
+#Titanic Survival Prediction
+
+
+# In[257]:
+
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.preprocessing import StandardScaler
+import seaborn as sns
+from sklearn.metrics import accuracy_score
+
+
+# In[258]:
+
+
+data=pd.read_csv(r"D:\code soft\Titanic survival prediction\tested.csv")
+
+
+# In[259]:
+
+
+data
+
+
+# In[260]:
+
+
+data.head()
+
+
+# In[261]:
+
+
+data.tail()
+
+
+# In[262]:
+
+
+data.isnull
+
+
+# In[263]:
+
+
+data['Age'] = df['Age'].fillna(df['Age'].mean())
+data['Fare'] = df['Fare'].fillna(df['Fare'].mean())
+
+
+# In[264]:
+
+
+data
+
+
+# In[265]:
+
+
+data.isnull().sum
+
+
+# In[266]:
+
+
+data.shape
+
+
+# In[267]:
+
+
+data.info()
+
+
+# In[268]:
+
+
+df=pd.DataFrame(data)
+
+
+# In[269]:
+
+
+df
+
+
+# In[270]:
+
+
+df1=df.drop(['Name','SibSp','Parch','Ticket','Cabin'],axis=1,inplace=True)
+
+
+# In[271]:
+
+
+df
+
+
+# In[272]:
+
+
+df['Pclass'].unique()
+
+
+# In[273]:
+
+
+sns.countplot(x=df['Survived'],hue=df['Pclass'])
+
+
+# In[274]:
+
+
+sns.countplot(x=df['Survived'],hue=df['Sex'])
+
+
+# In[275]:
+
+
+sns.boxplot(x=df['Age'],hue=df['Survived']);
+
+
+# In[244]:
+
+
+df.groupby('Survived').Age.mean()
+
+
+# In[276]:
+
+
+df2=df.drop(['Sex','Embarked'],axis=1,inplace=True)
+
+
+# In[277]:
+
+
+target = df['Survived']
+
+
+# In[278]:
+
+
+x_train, x_test, y_train, y_test = train_test_split(df,target,test_size = 0.2,random_state=42)
+
+
+# In[279]:
+
+
+x_train
+
+
+# In[280]:
+
+
+x_test
+
+
+# In[281]:
+
+
+y_train
+
+
+# In[282]:
+
+
+y_test
+
+
+# In[283]:
+
+
+k = 3 
+knn_classifier = KNeighborsClassifier(n_neighbors=k)
+
+
+# In[284]:
+
+
+knn_classifier.fit(x_train, y_train)
+
+
+# In[285]:
+
+
+y_pred = knn_classifier.predict(x_test)
+
+
+# In[292]:
+
+
+accuracy = accuracy_score(y_test, y_pred)
+print('accuracy: {:.2f}%'.format(accuracy*100))
+
+
+# In[ ]:
+
+
+
+
